@@ -1,26 +1,54 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
-function App() {
+import ZomboContainer from './components/ZomboContainer';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+}));
+
+export default function App() {
+  const classes = useStyles();
+  const [zombiesInTruck, setZombiesInTruck] = useState(25);
+
+  function moveToTruck() {
+    setZombiesInTruck(zombiesInTruck + 1);
+  }
+
+  function storeZombie() {
+    if (zombiesInTruck > 0) {
+      setZombiesInTruck(zombiesInTruck - 1);
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={classes.root}>
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justify="center"
+        style={{ minHeight: '100vh' }}
+      >
+        <Typography variant="h5" component="h2">
+          Zombies In Truck: {zombiesInTruck}
+        </Typography>
+        <Grid item xs={2}>
+          <ZomboContainer name={"Hospital"} zombiesInTruck={zombiesInTruck} moveToTruck={moveToTruck} storeZombie={storeZombie}/>
+          <ZomboContainer name={"School"} zombiesInTruck={zombiesInTruck} moveToTruck={moveToTruck} storeZombie={storeZombie}/>
+          <ZomboContainer name={"Warehouse"} zombiesInTruck={zombiesInTruck} moveToTruck={moveToTruck} storeZombie={storeZombie}/>
+        </Grid>
+      </Grid>
     </div>
   );
 }
-
-export default App;
